@@ -1,12 +1,20 @@
 library(rlang)
 library(ggplot2)
+library(ggrepel)
 library(shiny)
 
 get_country_data <- function(country) {
-  coronavirus %>%
+  x <- coronavirus %>%
     filter(type != "death", country == {{country}}) %>%
     mutate(region = {{country}}) %>%
-    ungroup()
+    ungroup() %>%
+    select(-country)
+
+  x$count <- NA
+  x$count[nrow(x) - 1] <- x$cases[nrow(x) - 1]
+  x$count[nrow(x)] <- x$cases[nrow(x)]
+
+  x
 }
 
 
@@ -19,25 +27,29 @@ shinyServer(function(input, output) {
     dat <- data.frame()
 
     if (input$cWorld) {
-      dat <- rbind(
-        dat,
-        coronavirus %>%
-          filter(type != "death") %>%
-          group_by(date, type) %>%
-          mutate(cases = sum(cases), region = "World") %>%
-          ungroup()
-      )
+      x <- coronavirus %>%
+        filter(type != "death") %>%
+        group_by(date, type) %>%
+        summarise(cases = sum(cases), region = "World", count = NA) %>%
+        ungroup()
+
+      x$count[nrow(x) - 1] <- x$cases[nrow(x) - 1]
+      x$count[nrow(x)] <- x$cases[nrow(x)]
+
+      dat <- rbind(dat, x)
     }
 
     if (input$cWorldNoChina) {
-      dat <- rbind(
-        dat,
-        coronavirus %>%
-          filter(type != "death", country != "China") %>%
-          group_by(date, type) %>%
-          mutate(cases = sum(cases), region = "World except China") %>%
-          ungroup()
-      )
+      x <- coronavirus %>%
+        filter(type != "death", country != "China") %>%
+        group_by(date, type) %>%
+        summarise(cases = sum(cases), region = "World except China", count = NA) %>%
+        ungroup()
+
+      x$count[nrow(x) - 1] <- x$cases[nrow(x) - 1]
+      x$count[nrow(x)] <- x$cases[nrow(x)]
+
+      dat <- rbind(dat, x)
     }
 
     if (input$cChina) {
@@ -135,6 +147,10 @@ shinyServer(function(input, output) {
           strip.text = element_text(size = 12),
           legend.position = "bottom"
         )
+
+      if (input$cShowNumber) {
+        p <- p + ggrepel::geom_label_repel(aes(label = count), show.legend = FALSE)
+      }
 
       if (input$cScaleLog) {
         p <- p + scale_y_log10()

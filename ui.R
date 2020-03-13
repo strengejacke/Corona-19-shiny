@@ -24,7 +24,8 @@ shinyUI(fluidPage(
       checkboxInput("cUS", "US", FALSE),
       checkboxInput("cWorld", "World", TRUE),
       checkboxInput("cWorldNoChina", "World (except China)", TRUE),
-      checkboxInput("cScaleLog", "Logarithmic y-Axis", TRUE)
+      checkboxInput("cScaleLog", "Logarithmic y-Axis", TRUE),
+      checkboxInput("cShowNumber", "Show Count", FALSE)
     ),
 
     mainPanel(
