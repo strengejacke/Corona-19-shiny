@@ -1,0 +1,12 @@
+name: Corona-19
+title: Corona-19
+username:
+account: r-kurs
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 1944835
+bundleId: 2878344
+url: https://r-kurs.shinyapps.io/Corona-19/
+when: 1584106069.49913
+asMultiple: FALSE
+asStatic: FALSE
