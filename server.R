@@ -170,7 +170,7 @@ shinyServer(function(input, output) {
       if (n_col > 3) n_col <- 3
 
       legend_labels <- if (input$cIncludeDeath) {
-        c(confirmed = "confirmed", recovered = "recovered or died")
+        c(confirmed = "confirmed", recovered = "recovered and casualties")
       } else {
         c(confirmed = "confirmed", recovered = "recovered")
       }

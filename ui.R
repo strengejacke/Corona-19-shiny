@@ -30,7 +30,7 @@ shinyUI(fluidPage(
       tags$div(tags$p(tags$em("--- Options:"))),
       checkboxInput("cScaleLog", "Logarithmic y-Axis", TRUE),
       checkboxInput("cShowNumber", "Show Count", TRUE),
-      checkboxInput("cIncludeDeath", "Combine recovered + died (adds number of confirmed deaths to recovered cases)", FALSE)
+      checkboxInput("cIncludeDeath", "Include casualties (adds number of casualties to recovered cases)", FALSE)
     ),
 
     mainPanel(
