@@ -175,23 +175,38 @@ shinyServer(function(input, output) {
         c(confirmed = "confirmed", recovered = "recovered")
       }
 
-      p <- ggplot(d, aes(x = date, y = cases, colour = type)) +
-        geom_line() +
-        # see::theme_abyss() +
-        scale_color_manual(values = c("#e74c3c", "#2980b9"), labels = legend_labels) +
-        scale_x_date(
-          date_breaks = "1 week",
-          date_labels = "%d.%m.",
-          # date_minor_breaks = "1 day",
-          guide = guide_axis(n.dodge = 2)
-        ) +
-        facet_wrap(~region, scale = "free_y", ncol = n_col) +
-        labs(y = NULL, colour = "Cases", x = NULL, title = "Covid-19") +
-        theme_linedraw(base_size = 14) +
-        theme(
-          strip.text = element_text(size = 12),
-          legend.position = "bottom"
-        )
+      if (input$cOnePlot) {
+        d <- d %>% filter(type == "confirmed", !(region %in% c("World except China", "World")))
+        p <- ggplot(d, aes(x = date, y = cases, colour = region)) +
+          geom_line() +
+          scale_x_date(
+            date_breaks = "1 week",
+            date_labels = "%d.%m.",
+            # date_minor_breaks = "1 day",
+            guide = guide_axis(n.dodge = 2)
+          ) +
+          labs(y = NULL, colour = "Confirmed Cases", x = NULL, title = "Confirmed Covid-19 by Region") +
+          theme_linedraw(base_size = 14)
+      } else {
+        p <- ggplot(d, aes(x = date, y = cases, colour = type)) +
+          geom_line() +
+          # see::theme_abyss() +
+          scale_color_manual(values = c("#e74c3c", "#2980b9"), labels = legend_labels) +
+          scale_x_date(
+            date_breaks = "1 week",
+            date_labels = "%d.%m.",
+            # date_minor_breaks = "1 day",
+            guide = guide_axis(n.dodge = 2)
+          ) +
+          facet_wrap(~region, scale = "free_y", ncol = n_col) +
+          labs(y = NULL, colour = "Cases", x = NULL, title = "Covid-19") +
+          theme_linedraw(base_size = 14) +
+          theme(
+            strip.text = element_text(size = 12),
+            legend.position = "bottom"
+          )
+      }
+
 
       if (input$cShowNumber) {
         p <- p + ggrepel::geom_label_repel(aes(label = count), show.legend = FALSE)
@@ -207,7 +222,9 @@ shinyServer(function(input, output) {
 
   output$plot.ui <- renderUI({
     # plotOutput("corona_plot", width = "100%", height = "500px")
-    if (plotHeight() > 9) {
+    if (input$cOnePlot) {
+      plotOutput("corona_plot", width = "100%", height = "700px")
+    } else if (plotHeight() > 9) {
       plotOutput("corona_plot", width = "100%", height = "1000px")
     } else if (plotHeight() > 6) {
       plotOutput("corona_plot", width = "100%", height = "850px")

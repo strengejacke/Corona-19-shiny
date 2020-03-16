@@ -29,8 +29,10 @@ shinyUI(fluidPage(
       checkboxInput("cWorldNoChina", "World (except China)", TRUE),
       tags$div(tags$p(tags$em("--- Options:"))),
       checkboxInput("cScaleLog", "Logarithmic y-Axis", TRUE),
-      checkboxInput("cShowNumber", "Show Count", TRUE),
-      checkboxInput("cIncludeDeath", "Include casualties (adds number of casualties to recovered cases)", FALSE)
+      checkboxInput("cShowNumber", "Show count", TRUE),
+      checkboxInput("cIncludeDeath", "Include casualties (adds number of casualties to recovered cases)", FALSE),
+      checkboxInput("cOnePlot", "All in one Plot", FALSE)
+      # checkboxInput("cSelectAll", "Select all countries", FALSE)
     ),
 
     mainPanel(
