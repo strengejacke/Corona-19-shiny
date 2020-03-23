@@ -5,8 +5,8 @@ account: r-kurs
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 1944835
-bundleId: 2886063
+bundleId: 2915037
 url: https://r-kurs.shinyapps.io/Corona-19/
-when: 1584353991.83508
+when: 1584999298.89879
 asMultiple: FALSE
 asStatic: FALSE

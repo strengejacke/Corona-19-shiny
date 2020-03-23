@@ -76,6 +76,10 @@ shinyServer(function(input, output) {
       dat <- rbind(dat, x)
     }
 
+    if (input$cBrazil) {
+      dat <- rbind(dat, get_country_data("Brazil", include_death = input$cIncludeDeath))
+    }
+
     if (input$cChina) {
       dat <- rbind(dat, get_country_data("China", include_death = input$cIncludeDeath))
     }
@@ -136,6 +140,10 @@ shinyServer(function(input, output) {
       dat <- rbind(dat, get_country_data("Netherlands", include_death = input$cIncludeDeath))
     }
 
+    if (input$cSouthKorea) {
+      dat <- rbind(dat, get_country_data("Korea, South", include_death = input$cIncludeDeath))
+    }
+
     dat
   })
 
@@ -144,6 +152,7 @@ shinyServer(function(input, output) {
     x <- 0
     if (input$cAustria) x <- x + 1
     if (input$cAustralia) x <- x + 1
+    if (input$cBrazil) x <- x + 1
     if (input$cChina) x <- x + 1
     if (input$cDenmark) x <- x + 1
     if (input$cFrance) x <- x + 1
@@ -155,6 +164,7 @@ shinyServer(function(input, output) {
     if (input$cPoland) x <- x + 1
     if (input$cSingapore) x <- x + 1
     if (input$cSpain) x <- x + 1
+    if (input$cSouthKorea) x <- x + 1
     if (input$cUK) x <- x + 1
     if (input$cUS) x <- x + 1
     if (input$cWorld) x <- x + 1
