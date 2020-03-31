@@ -6,7 +6,7 @@ library(tidyr)
 get_corona_data <- function() {
 
   raw_conf <- read.csv(
-    file = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Confirmed.csv",
+    file = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv",
     stringsAsFactors = FALSE
   )
 
@@ -37,7 +37,7 @@ get_corona_data <- function() {
   # Pulling death cases
 
   raw_death <- read.csv(
-    file = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Deaths.csv",
+    file = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv",
     stringsAsFactors = FALSE
   )
 
@@ -67,7 +67,7 @@ get_corona_data <- function() {
   # Pulling recovered cases
 
   raw_recovered <- read.csv(
-    file = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Recovered.csv",
+    file = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_recovered_global.csv",
     stringsAsFactors = FALSE
   )
 
