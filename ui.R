@@ -13,14 +13,14 @@ shinyUI(fluidPage(
       checkboxInput("cAustralia", "Australia", FALSE),
       checkboxInput("cAustria", "Austria", FALSE),
       checkboxInput("cBrazil", "Brazil", FALSE),
-      checkboxInput("cChina", "China", TRUE),
+      checkboxInput("cChina", "China", FALSE),
       checkboxInput("cDenmark", "Denmark", FALSE),
       checkboxInput("cFinland", "Finland", FALSE),
       checkboxInput("cFrance", "France", FALSE),
       checkboxInput("cGermany", "Germany", TRUE),
       checkboxInput("cIran", "Iran", FALSE),
       checkboxInput("cIsrael", "Israel", FALSE),
-      checkboxInput("cItaly", "Italy", FALSE),
+      checkboxInput("cItaly", "Italy", TRUE),
       checkboxInput("cNetherlands", "Netherlands", FALSE),
       checkboxInput("cPoland", "Poland", FALSE),
       checkboxInput("cRussia", "Russia", FALSE),
@@ -39,7 +39,8 @@ shinyUI(fluidPage(
         checkboxInput("cShowNumber", "Show count", TRUE),
         checkboxInput("cIncludeDeath", "Include casualties (adds number of casualties to recovered cases)", FALSE),
         checkboxInput("cSeparateDeath", "Separate casualties and recovered", FALSE),
-        checkboxInput("cOnePlot", "All in one Plot", FALSE)
+        checkboxInput("cOnePlot", "All in one Plot", FALSE),
+        checkboxInput("cOnlyNew", "Daily new confirmed (log-curve should go down)", FALSE)
       ),
       tags$div(style = "border-top:1px solid #999999; font-size:0.8em; color: #666666; padding-top: 1em", tags$p(
         "Data: ", tags$a(href = "https://github.com/CSSEGISandData/COVID-19", "CCSE / John Hopkins University"),

@@ -3,10 +3,18 @@ library(ggplot2)
 library(ggrepel)
 library(shiny)
 
-get_country_data <- function(country, include_death = FALSE, separate_death = FALSE) {
+get_country_data <- function(country, include_death = FALSE, separate_death = FALSE, only_new) {
   x <- coronavirus
 
-  if (isTRUE(include_death) && isFALSE(separate_death)) {
+  if (isTRUE(only_new)) {
+    x <- x %>%
+      ungroup() %>%
+      filter(country == {{country}}, type == "confirmed") %>%
+      mutate(daily_new = c(0, diff(cases)), region = {{country}}) %>%
+      select(-country)
+    x$count <- NA
+    x$count[nrow(x)] <- x$daily_new[nrow(x)]
+  } else if (isTRUE(include_death) && isFALSE(separate_death)) {
     x$type[x$type == "death"] <- "recovered"
     x <- x %>%
       filter(country == {{country}}) %>%
@@ -88,83 +96,83 @@ shinyServer(function(input, output) {
     }
 
     if (input$cBrazil) {
-      dat <- rbind(dat, get_country_data("Brazil", include_death = input$cIncludeDeath, separate_death = input$cSeparateDeath))
+      dat <- rbind(dat, get_country_data("Brazil", include_death = input$cIncludeDeath, separate_death = input$cSeparateDeath, only_new = input$cOnlyNew))
     }
 
     if (input$cChina) {
-      dat <- rbind(dat, get_country_data("China", include_death = input$cIncludeDeath, separate_death = input$cSeparateDeath))
+      dat <- rbind(dat, get_country_data("China", include_death = input$cIncludeDeath, separate_death = input$cSeparateDeath, only_new = input$cOnlyNew))
     }
 
     if (input$cGermany) {
-      dat <- rbind(dat, get_country_data("Germany", include_death = input$cIncludeDeath, separate_death = input$cSeparateDeath))
+      dat <- rbind(dat, get_country_data("Germany", include_death = input$cIncludeDeath, separate_death = input$cSeparateDeath, only_new = input$cOnlyNew))
     }
 
     if (input$cItaly) {
-      dat <- rbind(dat, get_country_data("Italy", include_death = input$cIncludeDeath, separate_death = input$cSeparateDeath))
+      dat <- rbind(dat, get_country_data("Italy", include_death = input$cIncludeDeath, separate_death = input$cSeparateDeath, only_new = input$cOnlyNew))
     }
 
     if (input$cFrance) {
-      dat <- rbind(dat, get_country_data("France", include_death = input$cIncludeDeath, separate_death = input$cSeparateDeath))
+      dat <- rbind(dat, get_country_data("France", include_death = input$cIncludeDeath, separate_death = input$cSeparateDeath, only_new = input$cOnlyNew))
     }
 
     if (input$cFinland) {
-      dat <- rbind(dat, get_country_data("Finland", include_death = input$cIncludeDeath, separate_death = input$cSeparateDeath))
+      dat <- rbind(dat, get_country_data("Finland", include_death = input$cIncludeDeath, separate_death = input$cSeparateDeath, only_new = input$cOnlyNew))
     }
 
     if (input$cSweden) {
-      dat <- rbind(dat, get_country_data("Sweden", include_death = input$cIncludeDeath, separate_death = input$cSeparateDeath))
+      dat <- rbind(dat, get_country_data("Sweden", include_death = input$cIncludeDeath, separate_death = input$cSeparateDeath, only_new = input$cOnlyNew))
     }
 
     if (input$cRussia) {
-      dat <- rbind(dat, get_country_data("Russia", include_death = input$cIncludeDeath, separate_death = input$cSeparateDeath))
+      dat <- rbind(dat, get_country_data("Russia", include_death = input$cIncludeDeath, separate_death = input$cSeparateDeath, only_new = input$cOnlyNew))
     }
 
     if (input$cUS) {
-      dat <- rbind(dat, get_country_data("US", include_death = input$cIncludeDeath, separate_death = input$cSeparateDeath))
+      dat <- rbind(dat, get_country_data("US", include_death = input$cIncludeDeath, separate_death = input$cSeparateDeath, only_new = input$cOnlyNew))
     }
 
     if (input$cSpain) {
-      dat <- rbind(dat, get_country_data("Spain", include_death = input$cIncludeDeath, separate_death = input$cSeparateDeath))
+      dat <- rbind(dat, get_country_data("Spain", include_death = input$cIncludeDeath, separate_death = input$cSeparateDeath, only_new = input$cOnlyNew))
     }
 
     if (input$cAustria) {
-      dat <- rbind(dat, get_country_data("Austria", include_death = input$cIncludeDeath, separate_death = input$cSeparateDeath))
+      dat <- rbind(dat, get_country_data("Austria", include_death = input$cIncludeDeath, separate_death = input$cSeparateDeath, only_new = input$cOnlyNew))
     }
 
     if (input$cAustralia) {
-      dat <- rbind(dat, get_country_data("Australia", include_death = input$cIncludeDeath, separate_death = input$cSeparateDeath))
+      dat <- rbind(dat, get_country_data("Australia", include_death = input$cIncludeDeath, separate_death = input$cSeparateDeath, only_new = input$cOnlyNew))
     }
 
     if (input$cSingapore) {
-      dat <- rbind(dat, get_country_data("Singapore", include_death = input$cIncludeDeath, separate_death = input$cSeparateDeath))
+      dat <- rbind(dat, get_country_data("Singapore", include_death = input$cIncludeDeath, separate_death = input$cSeparateDeath, only_new = input$cOnlyNew))
     }
 
     if (input$cDenmark) {
-      dat <- rbind(dat, get_country_data("Denmark", include_death = input$cIncludeDeath, separate_death = input$cSeparateDeath))
+      dat <- rbind(dat, get_country_data("Denmark", include_death = input$cIncludeDeath, separate_death = input$cSeparateDeath, only_new = input$cOnlyNew))
     }
 
     if (input$cIsrael) {
-      dat <- rbind(dat, get_country_data("Israel", include_death = input$cIncludeDeath, separate_death = input$cSeparateDeath))
+      dat <- rbind(dat, get_country_data("Israel", include_death = input$cIncludeDeath, separate_death = input$cSeparateDeath, only_new = input$cOnlyNew))
     }
 
     if (input$cIran) {
-      dat <- rbind(dat, get_country_data("Iran", include_death = input$cIncludeDeath, separate_death = input$cSeparateDeath))
+      dat <- rbind(dat, get_country_data("Iran", include_death = input$cIncludeDeath, separate_death = input$cSeparateDeath, only_new = input$cOnlyNew))
     }
 
     if (input$cUK) {
-      dat <- rbind(dat, get_country_data("United Kingdom", include_death = input$cIncludeDeath, separate_death = input$cSeparateDeath))
+      dat <- rbind(dat, get_country_data("United Kingdom", include_death = input$cIncludeDeath, separate_death = input$cSeparateDeath, only_new = input$cOnlyNew))
     }
 
     if (input$cPoland) {
-      dat <- rbind(dat, get_country_data("Poland", include_death = input$cIncludeDeath, separate_death = input$cSeparateDeath))
+      dat <- rbind(dat, get_country_data("Poland", include_death = input$cIncludeDeath, separate_death = input$cSeparateDeath, only_new = input$cOnlyNew))
     }
 
     if (input$cNetherlands) {
-      dat <- rbind(dat, get_country_data("Netherlands", include_death = input$cIncludeDeath, separate_death = input$cSeparateDeath))
+      dat <- rbind(dat, get_country_data("Netherlands", include_death = input$cIncludeDeath, separate_death = input$cSeparateDeath, only_new = input$cOnlyNew))
     }
 
     if (input$cSouthKorea) {
-      dat <- rbind(dat, get_country_data("Korea, South", include_death = input$cIncludeDeath, separate_death = input$cSeparateDeath))
+      dat <- rbind(dat, get_country_data("Korea, South", include_death = input$cIncludeDeath, separate_death = input$cSeparateDeath, only_new = input$cOnlyNew))
     }
 
     dat
@@ -221,7 +229,19 @@ shinyServer(function(input, output) {
         c("#e74c3c", "#27ae60")
       }
 
-      if (input$cOnePlot) {
+      if (input$cOnlyNew) {
+        p <- ggplot(d, aes(x = date, y = daily_new)) +
+          geom_line(alpha = .5, colour = color_values[1]) +
+          stat_smooth(method = "loess", size = .8, colour = color_values[1], se = FALSE) +
+          scale_x_date(
+            date_breaks = "1 week",
+            date_labels = "%d.%m.",
+            guide = guide_axis(n.dodge = 2)
+          ) +
+          labs(y = NULL, x = NULL, title = "Daily Confirmed Covid-19 by Region") +
+          theme_linedraw(base_size = 14) +
+          facet_wrap(~region, scale = "free_y", ncol = n_col)
+      } else if (input$cOnePlot) {
         d <- d %>% filter(type == "confirmed", !(region %in% c("World except China", "World")))
         p <- ggplot(d, aes(x = date, y = cases, colour = region)) +
           geom_line() +
